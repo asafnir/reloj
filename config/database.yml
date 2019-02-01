@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: reloj_development
+  username: <%= ENV['PGUSER_NEW'] %>
+
+test:
+  <<: *default
+  database: reloj_test
+
+production:
+  <<: *default
+  database: reloj_production
+  username: reloj
+  password: <%= ENV['RELOJ_DATABASE_PASSWORD'] %>
