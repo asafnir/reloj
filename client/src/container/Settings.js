@@ -1,17 +1,14 @@
-import ListErrors from './ListErrors';
+import ListErrors from '../components/Common/ListErrors';
 import React from 'react';
 import api from '../services/api';
 import { connect } from 'react-redux';
 import {
   SETTINGS_SAVED,
-  SETTINGS_PAGE_UNLOADED,
-  LOGOUT
 } from '../constants/actionTypes';
 
 class SettingsForm extends React.Component {
   constructor() {
     super();
-
     this.state = {
       image: '',
       username: '',
@@ -39,25 +36,9 @@ class SettingsForm extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.currentUser) {
-      Object.assign(this.state, {
-        image: this.props.currentUser.image || '',
-        username: this.props.currentUser.username,
-        bio: this.props.currentUser.bio,
-        email: this.props.currentUser.email
-      });
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.currentUser) {
-      this.setState(Object.assign({}, this.state, {
-        image: nextProps.currentUser.image || '',
-        username: nextProps.currentUser.username,
-        bio: nextProps.currentUser.bio,
-        email: nextProps.currentUser.email
-      }));
-    }
   }
 
   render() {
@@ -130,10 +111,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClickLogout: () => dispatch({ type: LOGOUT }),
   onSubmitForm: user =>
     dispatch({ type: SETTINGS_SAVED, payload: api.Auth.save(user) }),
-  onUnload: () => dispatch({ type: SETTINGS_PAGE_UNLOADED })
 });
 
 class Settings extends React.Component {

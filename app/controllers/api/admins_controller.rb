@@ -1,9 +1,11 @@
 class Api::AdminsController < ApplicationController
   before_action :set_admin, only: [:show, :update, :destroy]
-  before_action :authenticate_user
+  before_action :authenticate_admin, only: [:show, :update, :destroy, :current, :index, :update]
 
   def current
-    render json: current_user.as_json(only: %i(id email))
+    token = {token: auth_token(current_admin).token}
+    user = current_admin.as_json(only: %i(first_name last_name email company)).merge(token)
+    render json: {user: user}
   end
   
   # GET /admins
@@ -23,9 +25,16 @@ class Api::AdminsController < ApplicationController
     @admin = Admin.new(admin_params)
 
     if @admin.save
-      render json: @admin, status: :created, location: @admin
+      user = {
+        email: @admin.email,
+        first_name: @admin.first_name,
+        last_name: @admin.last_name,
+        company: @admin.company,
+        token: auth_token(@admin).token
+      }
+      render json: {user: user, status: :created}, status: 200
     else
-      render json: @admin.errors, status: :unprocessable_entity
+      render json: @admin.errors, status: 400
     end
   end
 
@@ -49,8 +58,13 @@ class Api::AdminsController < ApplicationController
       @admin = Admin.find(params[:id])
     end
 
+    
+    def auth_token(user)
+      Knock::AuthToken.new payload: {sub: user.id}
+    end
+
     # Only allow a trusted parameter "white list" through.
     def admin_params
-      params.require(:admin).permit(:email, :password_digest, :company, :first_name, :last_name)
+      params.require(:admin).permit(:email, :password_digest, :company, :first_name, :last_name, :password, :password_confirmation)
     end
 end

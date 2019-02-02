@@ -9,10 +9,22 @@ import { ConnectedRouter } from 'connected-react-router';
 import App from './components/App';
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: blue,
+    background: {
+      default: "#fff"
+    },
   },
   overrides: {
+    MuiAppBar: {
+      root: {
+        boxShadow: 'none',
+        backgroundColor: "#fff"
+      },
+    },
     MuiButton: {
       root: {
         '&:focus': {
@@ -29,9 +41,9 @@ ReactDOM.render((
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <Switch>
+        
           <Route path="/" component={App} />
-        </Switch>
+        
       </ConnectedRouter>
     </Provider>
   </MuiThemeProvider>

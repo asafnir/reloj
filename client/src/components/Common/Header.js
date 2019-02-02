@@ -2,19 +2,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import UserMenu from './UserMenu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import Clock from './ClockLogo';
 import PropTypes from 'prop-types';
 
 const styles = theme => ({
   appBar: {
     position: 'relative',
+    background : '#fff',
   },
   toolbarTitle: {
     flex: 1,
+    color: '#333'
   },
+  clock: {
+    display: 'inline-block',
+    verticalAlign: 'bottom',
+    marginRight: 8
+  }
 })
 
 const LoggedOutView = props => {
@@ -35,25 +44,28 @@ const LoggedOutView = props => {
 const LoggedInView = props => {
   if (props.currentUser) {
     return (
-      <React.Fragment>
-        <Button component={Link} to="/">Home</Button>
-      </React.Fragment>
+      <UserMenu/>
     );
   }
-
   return null;
 };
 
 class Header extends React.Component {
+  
+  state = {
+    date: new Date(),
+  }
+
   render() {
     const { classes } = this.props;
-
+    console.log(this.props)
     return (
-        <AppBar position="static" color="default" className={classes.appBar}>
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            {this.props.appName.toLowerCase()}
-          </Typography>
+            <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+              <Clock className={classes.clock}/>
+              {this.props.appName}
+            </Typography>
           
 
           <LoggedOutView currentUser={this.props.currentUser} />

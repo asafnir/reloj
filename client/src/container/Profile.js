@@ -1,13 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import api from '../services/api';
 import { connect } from 'react-redux';
-import {
-  FOLLOW_USER,
-  UNFOLLOW_USER,
-  PROFILE_PAGE_LOADED,
-  PROFILE_PAGE_UNLOADED
-} from '../constants/actionTypes';
 
 const EditProfileSettings = props => {
   if (props.isUser) {
@@ -29,30 +22,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFollow: username => dispatch({
-    type: FOLLOW_USER,
-    payload: api.Profile.follow(username)
-  }),
-  onLoad: payload => dispatch({ type: PROFILE_PAGE_LOADED, payload }),
-  onUnfollow: username => dispatch({
-    type: UNFOLLOW_USER,
-    payload: api.Profile.unfollow(username)
-  }),
-  onUnload: () => dispatch({ type: PROFILE_PAGE_UNLOADED })
+
 });
 
 class Profile extends React.Component {
-  componentWillMount() {
-    this.props.onLoad(Promise.all([
-      api.Profile.get(this.props.match.params.username),
-      api.Articles.byAuthor(this.props.match.params.username)
-    ]));
-  }
-
-  componentWillUnmount() {
-    this.props.onUnload();
-  }
-
+  
   renderTabs() {
     return (
       <ul className="nav nav-pills outline-active">

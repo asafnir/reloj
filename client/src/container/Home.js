@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ProductHero from '../components/Home/ProductHero';
+import ProductHowItWorks from '../components/Home/ProductHowItWorks';
 
 const mapStateToProps = state => ({
   ...state.home,
@@ -11,14 +13,10 @@ class Home extends React.Component {
   
   render() {
     return (
-      <div className="home-page">
-        <div className="container page">
-          <div className="row">
-            
-          </div>
-        </div>
-
-      </div>
+      <React.Fragment>
+        <ProductHero />
+        <ProductHowItWorks />
+      </React.Fragment>
     );
   }
 }

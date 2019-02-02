@@ -2,12 +2,12 @@ import api from './services/api';
 import {
   ASYNC_START,
   ASYNC_END,
-  LOGIN,
-  LOGOUT,
-  REGISTER
+  AUTHENTICATION_SUCCESS,
+  LOGOUT
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {
+  console.log(action)
   if (isPromise(action.payload)) {
     store.dispatch({ type: ASYNC_START, subtype: action.type });
 
@@ -47,13 +47,13 @@ const promiseMiddleware = store => next => action => {
 };
 
 const localStorageMiddleware = store => next => action => {
-  if (action.type === REGISTER || action.type === LOGIN) {
-    if (!action.error) {
-      window.localStorage.setItem('jwt', action.payload.user.token);
+  if (action.type === AUTHENTICATION_SUCCESS) {
+    if (!action.payload.error) {
+      window.localStorage.setItem('token', action.payload.user.token);
       api.setToken(action.payload.user.token);
     }
   } else if (action.type === LOGOUT) {
-    window.localStorage.setItem('jwt', '');
+    window.localStorage.setItem('token', '');
     api.setToken(null);
   }
 

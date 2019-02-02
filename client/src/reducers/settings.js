@@ -1,6 +1,5 @@
 import {
     SETTINGS_SAVED,
-    SETTINGS_PAGE_UNLOADED,
     ASYNC_START
   } from '../constants/actionTypes';
   
@@ -12,8 +11,6 @@ import {
           inProgress: false,
           errors: action.error ? action.payload.errors : null
         };
-      case SETTINGS_PAGE_UNLOADED:
-        return {};
       case ASYNC_START:
         return {
           ...state,

@@ -1,21 +1,22 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 class ListErrors extends React.Component {
   render() {
     const errors = this.props.errors;
     if (errors) {
       return (
-        <ul className="error-messages">
+        <div className="error-messages">
           {
             Object.keys(errors).map(key => {
               return (
-                <li key={key}>
+                <Typography color='error' key={key} variant="body2" gutterBottom>
                   {key} {errors[key]}
-                </li>
+                </Typography>
               );
             })
           }
-        </ul>
+        </div>
       );
     } else {
       return null;

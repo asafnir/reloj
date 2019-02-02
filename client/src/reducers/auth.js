@@ -1,31 +1,66 @@
 import {
     LOGIN,
-    REGISTER,
-    LOGIN_PAGE_UNLOADED,
-    REGISTER_PAGE_UNLOADED,
-    ASYNC_START,
-    UPDATE_FIELD_AUTH
+    REGISTER,  
+    AUTHENTICATION_REQUEST,
+    AUTHENTICATION_SUCCESS,
+    AUTHENTICATION_FAILURE,
+    LOGOUT,  
   } from '../constants/actionTypes';
-  
-export default (state = {}, action) => {
+
+const initialState = {
+  isAuthenticated: false,
+  isAuthenticating: false,
+  inProgress: false,
+  currentUser: null,
+  token: null,
+  errors: []
+}
+export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
+      return {
+        ...state,
+        inProgress: false,
+        errors: action.error ? action.payload.errors : null
+      };
     case REGISTER:
       return {
         ...state,
         inProgress: false,
         errors: action.error ? action.payload.errors : null
       };
-    case LOGIN_PAGE_UNLOADED:
-    case REGISTER_PAGE_UNLOADED:
-      return {};
-    case ASYNC_START:
-      if (action.subtype === LOGIN || action.subtype === REGISTER) {
-        return { ...state, inProgress: true };
-      }
-      break;
-    case UPDATE_FIELD_AUTH:
-      return { ...state, [action.key]: action.value };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        isAuthenticating: false,
+        currentUser: null,
+        inProgress: false,
+        token: null
+    };
+    case AUTHENTICATION_REQUEST:
+      return {
+        ...state,
+        isAuthenticating: true,
+        inProgress: true
+      };
+    case AUTHENTICATION_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+        isAuthenticating: false,
+        currentUser: action.payload.user,
+        token: action.payload.token
+      };
+    case AUTHENTICATION_FAILURE:
+      return {
+        isAuthenticated: false,
+        isAuthenticating: false,
+        inProgress: false,
+        currentUser: null,
+        token: null,
+        errors: action.payload.errors || []
+      };
     default:
       return state;
   }

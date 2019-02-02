@@ -1,21 +1,13 @@
-import { Link } from 'react-router-dom';
-import ListErrors from './ListErrors';
+import ListErrors from '../components/Common/ListErrors';
 import React from 'react';
-import api from '../services/api';
 import { connect } from 'react-redux';
+import { authenticate } from '../actions/authActions';
 import { compose } from 'recompose';
-import {
-  UPDATE_FIELD_AUTH,
-  LOGIN,
-  LOGIN_PAGE_UNLOADED
-} from '../constants/actionTypes';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import LayoutBody from '../components/LayoutBody';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -47,36 +39,35 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({ ...state.auth });
 
-const mapDispatchToProps = dispatch => ({
-  onChangeEmail: value =>
-    dispatch({ type: UPDATE_FIELD_AUTH, key: 'email', value }),
-  onChangePassword: value =>
-    dispatch({ type: UPDATE_FIELD_AUTH, key: 'password', value }),
-  onSubmit: (email, password) =>
-    dispatch({ type: LOGIN, payload: api.Auth.login(email, password) }),
-  onUnload: () =>
-    dispatch({ type: LOGIN_PAGE_UNLOADED })
-});
-
 class Login extends React.Component {
   constructor() {
     super();
-    this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
-    this.changePassword = ev => this.props.onChangePassword(ev.target.value);
-    this.submitForm = (email, password) => ev => {
-      ev.preventDefault();
-      this.props.onSubmit(email, password);
+    this.state = { 
+      password: '',
+      email: ''
     };
   }
 
-  componentWillUnmount() {
-    this.props.onUnload();
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    await this.props.authenticate(this.state);
+    this.props.history.push('/dashboard')
+  }
+  
+  changeEmail = (ev) => {
+    this.setState({email: ev.target.value})
   }
 
+  changePassword = (ev) => {
+    this.setState({password: ev.target.value})
+  }
+    
+
   render() {
-    const { classes, password, email } = this.props;
+    const { classes } = this.props;
+    const {password, email} = this.state;
     return (
-      <div className="auth-page">
+      <LayoutBody margin marginBottom width="xsmall">
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -85,7 +76,7 @@ class Login extends React.Component {
             Sign in
           </Typography>
           <ListErrors errors={this.props.errors} />
-          <form className={classes.form} onSubmit={this.submitForm(email, password)}>
+          <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input id="email" name="email" autoComplete="email" autoFocus value={email} onChange={this.changeEmail}/>
@@ -94,10 +85,6 @@ class Login extends React.Component {
               <InputLabel htmlFor="password">Password</InputLabel>
               <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.changePassword}/>
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -110,7 +97,7 @@ class Login extends React.Component {
             </Button>
           </form>
         </Paper>
-      </div>
+      </LayoutBody>
     );
   }
 }
@@ -119,4 +106,4 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(Login);
+export default compose(connect(mapStateToProps, {authenticate}), withStyles(styles))(Login);
