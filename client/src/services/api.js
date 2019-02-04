@@ -44,6 +44,13 @@ const Admin = {
     requests.get('/employees'),
 }
 
+const Employee = {
+  getAttendances: (employee_id) =>
+    requests.get(`/employees/${employee_id}/attendances`),
+  startClock: (employee_id) => 
+    requests.post(`/employees/${employee_id}/attendances`)
+}
+
 const Profile = {
   get: username =>
     requests.get(`/profiles/${username}`),
@@ -52,6 +59,7 @@ const Profile = {
 export default {
   Auth,
   Admin,
+  Employee,
   Profile,
   setToken: _token => { token = _token; }
 };

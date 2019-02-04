@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import AddEmployeeDialog from '../components/Admin/AddEmployeeDialog';
 import { openAddEmployeeDialog, employees } from '../actions/adminActions';
 import EmployeesList from '../components/Admin/EmployeesList';
+import moment from 'moment';
 
 const styles = theme => ({
   addButton: {
@@ -46,6 +47,7 @@ class Dashboard extends React.Component {
           <Grid container>
             <Grid item xs={6}>
               <h1>Hello {currentUser.first_name}</h1>
+              <h3>{ moment(Date.now()).format('MM/DD/YY LT') }</h3>
             </Grid>
             <Grid item xs={6}>
               <Button className={classes.addButton} variant="outlined" onClick={this.openAddEmployeeDialog}>
@@ -53,21 +55,25 @@ class Dashboard extends React.Component {
               </Button>
             </Grid>
           </Grid>
-          { 
-            employees == null ?
-              <CircularProgress/>
-            :
-              employees.length ? 
-                <EmployeesList employees={employees}/>
-              :
-              <div>
-                <h4>Look like you don't have any eymplyee yet, start adding them</h4>
-              </div>
-            
-          }
+          <Grid container>
+            <Grid item xs={12}>
+              { 
+                employees == null ?
+                  <CircularProgress/>
+                :
+                  employees.length ? 
+                    <EmployeesList employees={employees}/>
+                  :
+                  <div>
+                    <h4>Look like you don't have any eymplyee yet, start adding them</h4>
+                  </div>
+              }
+            </Grid>
+          </Grid>
         </LayoutBody>
-        <AddEmployeeDialog/>
-      </React.Fragment>
+        
+      <AddEmployeeDialog/>
+    </React.Fragment>
     );
   }
 }

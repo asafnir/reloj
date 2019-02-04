@@ -42,13 +42,10 @@ function ProductHero(props) {
             <Grid container>
                 <Grid item xs={5} style={{paddingTop: 40}}>
                     <Typography align="center" variant="h2" marked="center">
-                        Time tracking tools
+                        Time tracking tool
                     </Typography>
                     <Typography align="center" variant="h5" className={classes.h5}>
                         simple employee time tracking
-                    </Typography>
-                    <Typography variant="body2" color="inherit" className={classes.more}>
-                        Discover the experience
                     </Typography>
                 </Grid>
                 <Grid item xs={7}>

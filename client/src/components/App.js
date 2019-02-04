@@ -12,6 +12,7 @@ import Dashboard from '../container/Dashboard';
 import Profile from '../container/Profile';
 import Register from '../container/Register';
 import Settings from '../container/Settings';
+import Attendance from '../container/Attendance';
 
 class App extends React.Component {
   
@@ -40,7 +41,9 @@ class App extends React.Component {
       <React.Fragment>
         <Header appName='reloj' currentUser={currentUser} />
           <Switch>
+            <Route exact path="/" component={Attendance}/>
             <Route exact path="/dashboard" component={Dashboard}/>
+            <Route exact path="/attendance" component={Attendance}/>
           </Switch>
       </React.Fragment>
     )

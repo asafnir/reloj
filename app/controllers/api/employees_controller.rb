@@ -1,6 +1,6 @@
 class Api::EmployeesController < ApplicationController
-  before_action :set_employee, only: [:show, :update, :destroy]
-  before_action :authenticate_admin, only: [:create, :index]
+  before_action :set_employee, only: [:show, :update, :destroy, :attendances]
+  before_action :authenticate_admin, only: [:create, :index, :attendances]
 
   # GET /employees
   def index
@@ -11,6 +11,11 @@ class Api::EmployeesController < ApplicationController
   # GET /employees/1
   def show
     render json: @employee
+  end
+
+  # GET /employees/1/attendances
+  def attendances
+    render json: @employee.attendances
   end
 
   # POST /employees

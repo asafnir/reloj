@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import { compose } from 'recompose';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
@@ -56,6 +58,7 @@ class UserMenu extends React.Component {
 
     return (
       <React.Fragment>
+        <Button component={Link} to="/dashboard">Dashbaord</Button>
         <IconButton
             aria-owns={open ? 'menu-appbar' : undefined}
             aria-haspopup="true"

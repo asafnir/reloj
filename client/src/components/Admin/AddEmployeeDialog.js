@@ -69,8 +69,10 @@ class AddEmployeeDialog extends React.Component {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
+    cleanFields() {}
+ 
     addEmployee = () => {
-        console.log(this.state.employee)
+        this.cleanFields()
         this.props.dispatch(addEmployee(this.state.employee))
     }
 

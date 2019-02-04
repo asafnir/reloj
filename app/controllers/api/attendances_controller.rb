@@ -1,5 +1,6 @@
 class Api::AttendancesController < ApplicationController
   before_action :set_attendance, only: [:show, :update, :destroy]
+  before_action :set_employee, only: [:create]
   before_action :authenticate_employee, :authenticate_admin
   
   # GET /attendances
@@ -14,13 +15,11 @@ class Api::AttendancesController < ApplicationController
   end
 
   # POST /attendances
-  # 
   def create
-    # employee = Employee.
-    @attendance = Attendance.new(attendance_params)
+    @attendance = @employee.attendances.new({start: Time.now})
 
     if @attendance.save
-      render json: @attendance, status: :created, location: @attendance
+      render json: @attendance, status: :created
     else
       render json: @attendance.errors, status: :unprocessable_entity
     end
@@ -28,7 +27,7 @@ class Api::AttendancesController < ApplicationController
 
   # PATCH/PUT /attendances/1
   def update
-    if @attendance.update(attendance_params)
+    if @attendance.update(end: Time.now)
       render json: @attendance
     else
       render json: @attendance.errors, status: :unprocessable_entity
@@ -46,8 +45,12 @@ class Api::AttendancesController < ApplicationController
       @attendance = Attendance.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
-    def attendance_params
-      params.require(:attendance).permit(:employee_id, :start, :end)
+    def set_employee
+      @employee = Employee.find(params[:id])
     end
+
+    # Only allow a trusted parameter "white list" through.
+    # def attendance_params
+    #   params.require(:attendance).permit(:employee_id, :start, :end)
+    # end
 end
