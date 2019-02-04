@@ -37,7 +37,12 @@ const Auth = {
     requests.put('/user', { user })
 };
 
-
+const Admin = {
+  addEmployee: (employee) =>
+    requests.post('/employees', employee ),
+  employees: () => 
+    requests.get('/employees'),
+}
 
 const Profile = {
   get: username =>
@@ -46,6 +51,7 @@ const Profile = {
 
 export default {
   Auth,
+  Admin,
   Profile,
   setToken: _token => { token = _token; }
 };

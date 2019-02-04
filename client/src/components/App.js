@@ -1,6 +1,6 @@
 import Header from './Common/Header';
 import React from 'react';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, withRouter , Switch} from 'react-router-dom';
 import { connect } from 'react-redux';
 import api from '../services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,7 @@ class App extends React.Component {
     if (token) {
       api.setToken(token);
       this.props.current()
-      this.props.history.push("/");
+      this.props.history.push("/dashboard");
     }
   }
 
@@ -29,24 +29,25 @@ class App extends React.Component {
     const guestViews = (
       <React.Fragment>
         <Header appName='reloj' currentUser={currentUser} />  
-        <Route exact path="/" component={Home}/>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Switch>
+          <Route exact path="/" exact component={Home}/>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+        </Switch>
       </React.Fragment>
     )
     const userViews = (
       <React.Fragment>
         <Header appName='reloj' currentUser={currentUser} />
-        <Route exact path="/" component={Dashboard}/>
-        <Route exact path="/dashboard" component={Dashboard}/>
+          <Switch>
+            <Route exact path="/dashboard" component={Dashboard}/>
+          </Switch>
       </React.Fragment>
     )
     return (
       <React.Fragment>
         <CssBaseline />
-        <Router>
-            {isAuthenticated && currentUser ? userViews : guestViews}
-        </Router>
+        {isAuthenticated && currentUser ? userViews : guestViews}
       </React.Fragment>
     );
   }

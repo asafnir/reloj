@@ -37,7 +37,9 @@ const styles = theme => ({
 
 })
 
-const mapStateToProps = state => ({ ...state.auth });
+const mapStateToProps = state => ({ 
+  ...state.auth,
+});
 
 class Login extends React.Component {
   constructor() {
@@ -51,7 +53,6 @@ class Login extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     await this.props.authenticate(this.state);
-    this.props.history.push('/dashboard')
   }
   
   changeEmail = (ev) => {
@@ -66,6 +67,7 @@ class Login extends React.Component {
   render() {
     const { classes } = this.props;
     const {password, email} = this.state;
+    
     return (
       <LayoutBody margin marginBottom width="xsmall">
         <Paper className={classes.paper}>

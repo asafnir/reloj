@@ -1,10 +1,10 @@
 class Api::EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :update, :destroy]
+  before_action :authenticate_admin, only: [:create, :index]
 
   # GET /employees
   def index
-    @employees = Employee.all
-
+    @employees = current_admin.employees
     render json: @employees
   end
 
@@ -15,27 +15,21 @@ class Api::EmployeesController < ApplicationController
 
   # POST /employees
   def create
-    @employee = Employee.new(employee_params)
-
+    @employee = current_admin.employees.new(employee_params)
+    print @employee
     if @employee.save
-      render json: @employee, status: :created, location: @employee
+      employee = {
+        id: @employee.id,
+        first_name: @employee.first_name,
+        last_name: @employee.last_name,
+        email: @employee.email,
+        password: @employee.password
+      }
+      render json: employee, status: :created
     else
+      print @employee.errors
       render json: @employee.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /employees/1
-  def update
-    if @employee.update(employee_params)
-      render json: @employee
-    else
-      render json: @employee.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /employees/1
-  def destroy
-    @employee.destroy
   end
 
   private
@@ -46,6 +40,6 @@ class Api::EmployeesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def employee_params
-      params.require(:employee).permit(:email, :password_digest, :first_name, :last_name)
+      params.require(:employee).permit(:email, :password_digest, :first_name, :last_name, :password, :password_confirmation)
     end
 end

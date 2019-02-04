@@ -41,9 +41,7 @@ ReactDOM.render((
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        
-          <Route path="/" component={App} />
-        
+          <App/>
       </ConnectedRouter>
     </Provider>
   </MuiThemeProvider>

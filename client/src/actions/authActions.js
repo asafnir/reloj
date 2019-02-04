@@ -44,13 +44,13 @@ export const logout = () => {
 }
 
 export const signup = (user) => {
-  const newUser = user
   return (dispatch) => {
     dispatch(authRequest)
     api.Auth.register({admin: user}).then(res => {
-      dispatch(authSuccess(res.user)).then(() => history.push('/'))
+      dispatch(authSuccess(res.user))
+      dispatch(push('/dashboard'))
     }).catch(err => {
-      dispatch(authFailure(err.response.body))
+      dispatch(authFailure(err.response ? err.response.body : {server: 'problem try again later '} ))
     })
   }
 }
@@ -63,7 +63,7 @@ export const authenticate = (credentials) => {
       api.setToken(token);
       api.Auth.current().then(res => {
         dispatch(authSuccess(res.user))
-        return true;
+        dispatch(push('/dashboard'))
       })
     }).catch( err => {
       dispatch(authFailure({user: 'not found'}))  
