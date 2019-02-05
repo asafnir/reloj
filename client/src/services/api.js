@@ -29,8 +29,12 @@ const requests = {
 const Auth = {
   current: () =>
     requests.get('/admins/current'),
+  currentEmployee: () => 
+    requests.get('/employees/current'),
   login: ({email, password}) =>
     requests.post('/admin/token', { auth: { email, password } }),
+  employeeLogin: ({email, password}) =>
+    requests.post('/employee/token', { auth: { email, password } }),
   register: (user) =>
     requests.post('/admins', user ),
   save: user =>

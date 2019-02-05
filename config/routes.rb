@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
     post 'admin/token' => 'admin_token#create'
+    post 'employee/token' => 'employee_token#create'
     get 'admins/current' => 'admins#current'
+    get 'employees/current' => 'employees#current'
     get 'employees/:id/attendances' => 'employees#attendances'
     post 'employees/:id/attendances' => 'attendances#create'
     resources :admins, only: %i(create)

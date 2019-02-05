@@ -71,6 +71,33 @@ export const authenticate = (credentials) => {
   }
 }
 
+export const employeeAuthenticate = (credentials) => {
+  return dispatch => {
+    api.Auth.employeeLogin(credentials).then(res => {
+      const token = res.jwt;
+      api.setToken(token);
+      api.Auth.currentEmployee().then(res => {
+        const user = res;
+        user.token = token
+        dispatch(authSuccess(user))
+        dispatch(push('/'))
+      })
+    }).catch( err => {
+      dispatch(authFailure({user: 'not found'}))  
+    })
+  }
+}
+
+export const currentEmployee = () => {
+  return dispatch => {
+    api.Auth.currentEmployee().then(res => {
+      dispatch(authSuccess(res))  
+    }).catch( err => {
+      dispatch(authFailure({user: 'not found'}))  
+    })
+  }
+}
+
 export const current = () => {
   return dispatch => {
     api.Auth.current().then(res => {

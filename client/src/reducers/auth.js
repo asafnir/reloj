@@ -36,7 +36,8 @@ export default (state = initialState, action) => {
         isAuthenticating: false,
         currentUser: null,
         inProgress: false,
-        token: null
+        token: null,
+        errors: []
     };
     case AUTHENTICATION_REQUEST:
       return {
@@ -50,7 +51,8 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         isAuthenticating: false,
         currentUser: action.payload.user,
-        token: action.payload.token
+        token: action.payload.token,
+        errors: []
       };
     case AUTHENTICATION_FAILURE:
       return {

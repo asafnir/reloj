@@ -48,6 +48,7 @@ const styles = theme => ({
     top: -180,
     opacity: 0.7,
   },
+
   button: {
     marginTop: theme.spacing.unit * 8,
   },
@@ -58,50 +59,23 @@ function EmployeeSection(props) {
 
   return (
     <section className={classes.root}>
-      <LayoutBody className={classes.layoutBody} width="large">
-        <Typography variant="h4" marked="center" className={classes.title} component="h2">
-          How it works
-        </Typography>
-        <div>
-          <Grid container spacing={40}>
-            <Grid item xs={12} md={4}>
-              <div className={classes.item}>
-                <div className={classes.number}>1.</div>
-                <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
-                </Typography>
-              </div>
+        <LayoutBody className={classes.layoutBody} width="large">
+            <Grid container spacing={40}>
+                <Grid item xs={12}>
+                    <Typography variant="h3" align="center">Employee Login</Typography>
+                    <Typography variant="h5" align="center">Welcome, please login to your employee account.</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                    <Typography variant="h5" align="left">
+                        Just login with the user name and password you got from your manger
+                    </Typography>
+                </Grid>
+                <Grid item xs={5}>
+                    <EmployeeLogin/>  
+                </Grid>
+            
             </Grid>
-            <Grid item xs={12} md={4}>
-              <div className={classes.item}>
-                <div className={classes.number}>2.</div>
-                <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited quantities, so be quick.
-                </Typography>
-              </div>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <div className={classes.item}>
-                <div className={classes.number}>3.</div>
-                <Typography variant="h5" align="center">
-                  {'New offers every week. New experiences, new surprises. '}
-                  {'Your Sundays will no longer be alike.'}
-                </Typography>
-              </div>
-            </Grid>
-          </Grid>
-        </div>
-        <Button
-          size="large"
-          variant="contained"
-          className={classes.button}
-          component={linkProps => (
-            <Link {...linkProps} href="/" variant="button" />
-          )}
-        >
-          Get started
-        </Button>
-      </LayoutBody>
+        </LayoutBody>
     </section>
   );
 }

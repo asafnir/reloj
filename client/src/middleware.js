@@ -50,10 +50,12 @@ const localStorageMiddleware = store => next => action => {
   if (action.type === AUTHENTICATION_SUCCESS) {
     if (!action.payload.error) {
       window.localStorage.setItem('token', action.payload.user.token);
+      window.localStorage.setItem('user', JSON.stringify(action.payload.user));
       api.setToken(action.payload.user.token);
     }
   } else if (action.type === LOGOUT) {
-    window.localStorage.setItem('token', '');
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
     api.setToken(null);
   }
 

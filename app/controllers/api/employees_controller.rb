@@ -1,6 +1,8 @@
 class Api::EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :update, :destroy, :attendances]
   before_action :authenticate_admin, only: [:create, :index, :attendances]
+  before_action :authenticate_employee
+  include Api::Concerns::Auth
 
   # GET /employees
   def index
@@ -35,6 +37,18 @@ class Api::EmployeesController < ApplicationController
       print @employee.errors
       render json: @employee.errors, status: :unprocessable_entity
     end
+  end
+
+  # /employees/current
+  def current
+    token = {token: auth_token(current_employee).token}
+    user = {
+      role: 'employee',
+      email: current_employee.email,
+      first_name: current_employee.first_name,
+      last_name: current_employee.last_name,
+    }
+    render json: user.merge(token)
   end
 
   private

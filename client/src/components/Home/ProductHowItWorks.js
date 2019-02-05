@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   root: {
     display: 'flex',
-    backgroundColor: '#ebebeb',
+    backgroundColor: '#fff',
     overflow: 'hidden',
   },
   layoutBody: {
@@ -67,7 +67,7 @@ function ProductHowItWorks(props) {
               <div className={classes.item}>
                 <div className={classes.number}>1.</div>
                 <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
+                  Create Your Account
                 </Typography>
               </div>
             </Grid>
@@ -75,7 +75,7 @@ function ProductHowItWorks(props) {
               <div className={classes.item}>
                 <div className={classes.number}>2.</div>
                 <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited quantities, so be quick.
+                  Add Your Employees
                 </Typography>
               </div>
             </Grid>
@@ -83,8 +83,7 @@ function ProductHowItWorks(props) {
               <div className={classes.item}>
                 <div className={classes.number}>3.</div>
                 <Typography variant="h5" align="center">
-                  {'New offers every week. New experiences, new surprises. '}
-                  {'Your Sundays will no longer be alike.'}
+                  Employees Punch In and Out
                 </Typography>
               </div>
             </Grid>
@@ -92,10 +91,9 @@ function ProductHowItWorks(props) {
         </div>
         <Button
           size="large"
-          variant="contained"
           className={classes.button}
           component={linkProps => (
-            <Link {...linkProps} href="/" variant="button" />
+            <Link {...linkProps} href="/register" variant="button" />
           )}
         >
           Get started

@@ -6,10 +6,11 @@ import api from '../services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { compose } from 'recompose';
 import Home from '../container/Home';
-import { current } from '../actions/authActions';
+import { current, currentEmployee } from '../actions/authActions';
 import Login from '../container/Login';
 import Dashboard from '../container/Dashboard';
 import Profile from '../container/Profile';
+import EmployeeDashboard from '../container/EmployeeDashboard';
 import Register from '../container/Register';
 import Settings from '../container/Settings';
 import Attendance from '../container/Attendance';
@@ -17,11 +18,19 @@ import Attendance from '../container/Attendance';
 class App extends React.Component {
   
   componentWillMount() {
+    const { history } = this.props;
     const token = window.localStorage.getItem('token');
-    if (token) {
+    const currentUser = JSON.parse(window.localStorage.getItem('user'));
+    console.log(currentUser)
+    if (token && currentUser) {
       api.setToken(token);
-      this.props.current()
-      this.props.history.push("/dashboard");
+      if (currentUser && currentUser.role === 'employee') { 
+        this.props.currentEmployee();
+        history.push("/")
+      } else {
+        this.props.current()
+        history.push("/dashboard");
+      }
     }
   }
 
@@ -31,7 +40,7 @@ class App extends React.Component {
       <React.Fragment>
         <Header appName='reloj' currentUser={currentUser} />  
         <Switch>
-          <Route exact path="/" exact component={Home}/>
+          <Route exact path="/" component={Home}/>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </Switch>
@@ -40,11 +49,17 @@ class App extends React.Component {
     const userViews = (
       <React.Fragment>
         <Header appName='reloj' currentUser={currentUser} />
-          <Switch>
-            <Route exact path="/" component={Attendance}/>
-            <Route exact path="/dashboard" component={Dashboard}/>
-            <Route exact path="/attendance" component={Attendance}/>
-          </Switch>
+          { currentUser && currentUser.role === "employee" ?
+            <Switch>
+              <Route exact path="/" component={EmployeeDashboard}/>
+            </Switch>
+            :
+            <Switch>
+              <Route exact path="/" component={Dashboard}/>
+              <Route exact path="/dashboard" component={Dashboard}/>
+              <Route exact path="/attendance" component={Attendance}/>
+            </Switch>
+          }
       </React.Fragment>
     )
     return (
@@ -63,4 +78,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, {current})(App))
+export default withRouter(connect(mapStateToProps, {current, currentEmployee})(App))

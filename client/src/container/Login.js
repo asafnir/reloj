@@ -62,11 +62,10 @@ class Login extends React.Component {
   changePassword = (ev) => {
     this.setState({password: ev.target.value})
   }
-    
 
   render() {
     const { classes } = this.props;
-    const {password, email} = this.state;
+    const { password, email } = this.state;
     
     return (
       <LayoutBody margin marginBottom width="xsmall">

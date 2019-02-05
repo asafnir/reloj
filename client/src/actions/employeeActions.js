@@ -1,29 +1,28 @@
 import api from '../services/api';
 
 import {
-  ATTENDANCES_LIST
+  ATTENDANCES_LIST,
+  START_CLOCK,
+  STOP_CLOCK
 } from '../constants/actionTypes'
 
-export const employeeAuthenticate = (credentials) => {
+export const startClock = ({employee_id, baseTime = 0}) => {
   return dispatch => {
-    api.Auth.employeeLogin(credentials).then(res => {
-      const token = res.jwt;
-      api.setToken(token);
-      // api.Auth.current().then(res => {
-      //   dispatch(authSuccess(res.user))
-      //   dispatch(push('/dashboard'))
-      // })
-    }).catch( err => {
-      // dispatch(authFailure({user: 'not found'}))  
-    })
+    dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
+    // api.Employee.startClock(employee_id).then(res => {
+    //   dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
+    //   console.log(res)
+    // }).catch( err => console.log(err))
   }
 }
 
-export const startClock = (employee_id) => {
+export const stopClock = (employee_id) => {
   return dispatch => {
-    api.Employee.startClock(employee_id).then(res => {
-      console.log(res)
-    }).catch( err => console.log(err))
+    dispatch({ type: STOP_CLOCK, now: new Date().getTime()});
+    // api.Employee.startClock(employee_id).then(res => {
+    //   dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
+    //   console.log(res)
+    // }).catch( err => console.log(err))
   }
 }
 

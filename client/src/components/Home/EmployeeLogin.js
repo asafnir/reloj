@@ -1,7 +1,7 @@
 import ListErrors from '../Common/ListErrors';
 import React from 'react';
 import { connect } from 'react-redux';
-import { authenticate } from '../../actions/authActions';
+import { employeeAuthenticate } from '../../actions/authActions';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
@@ -17,6 +17,11 @@ const styles = theme => ({
         overflow: 'hidden',
         paddingTop: 50,
     },
+    paper: {
+        ...theme.mixins.gutters(),
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+    },
     background: {
         backgroundColor: '#fff', // Average color of the background image.
         backgroundPosition: 'center',
@@ -27,11 +32,13 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 2,
         },
     },
-    image: {
-        width: 'auto',
-        height: 450,
-        float: 'right'
+    submit: {
+        marginTop: theme.spacing.unit * 2,
     }
+});
+
+const mapStateToProps = state => ({ 
+    ...state.auth,
 });
 
 class EmployeeLogin extends React.Component {
@@ -40,20 +47,25 @@ class EmployeeLogin extends React.Component {
         password: ''
     }
 
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        await this.props.employeeAuthenticate(this.state);
+    }
+
     render() {
         const { classes } = this.props;
         const { email, password } = this.state;
         return (
-            <Paper>
+            <Paper className={classes.paper}>
                 <ListErrors errors={this.props.errors} />
                 <form className={classes.form} onSubmit={this.handleSubmit}>
                 <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="email">Email Address</InputLabel>
-                    <Input id="email" name="email" autoComplete="email" autoFocus value={email} onChange={this.changeEmail}/>
+                    <Input id="email" name="email" autoComplete="email" value={email} autoFocus onChange={ev => this.setState({email: ev.target.value})}/>
                 </FormControl>
                 <FormControl margin="normal" required fullWidth>
                     <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.changePassword}/>
+                    <Input name="password" type="password" id="password" autoComplete="current-password" onChange={ev => this.setState({password: ev.target.value})}/>
                 </FormControl>
                 <Button
                     type="submit"
@@ -75,4 +87,4 @@ EmployeeLogin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EmployeeLogin);
+export default compose(connect(mapStateToProps, {employeeAuthenticate}), withStyles(styles))(EmployeeLogin);

@@ -52,13 +52,13 @@ class UserMenu extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, currentUser } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
       <React.Fragment>
-        <Button component={Link} to="/dashboard">Dashbaord</Button>
+        {currentUser && !currentUser.role && <Button component={Link} to="/dashboard">Dashbaord</Button>}
         <IconButton
             aria-owns={open ? 'menu-appbar' : undefined}
             aria-haspopup="true"

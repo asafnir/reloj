@@ -1,6 +1,7 @@
 class Api::AdminsController < ApplicationController
   before_action :set_admin, only: [:show, :update, :destroy]
   before_action :authenticate_admin, only: [:show, :update, :destroy, :current, :index, :update]
+  include Api::Concerns::Auth
 
   def current
     token = {token: auth_token(current_admin).token}
@@ -58,10 +59,6 @@ class Api::AdminsController < ApplicationController
       @admin = Admin.find(params[:id])
     end
 
-    
-    def auth_token(user)
-      Knock::AuthToken.new payload: {sub: user.id}
-    end
 
     # Only allow a trusted parameter "white list" through.
     def admin_params
