@@ -45,6 +45,8 @@ bin/rake start
 ```
 rspec
 ```
+* Deploying
+Rails serving the Webpack bundle. Using NPM’s postinstall command
 
 #### RESTful Api
 The app includes only the rails-api related modules,
