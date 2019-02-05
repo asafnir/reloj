@@ -52,7 +52,9 @@ const Employee = {
   getAttendances: (employee_id) =>
     requests.get(`/employees/${employee_id}/attendances`),
   startClock: (employee_id) => 
-    requests.post(`/employees/${employee_id}/attendances`)
+    requests.post(`/employees/${employee_id}/attendances`),
+  stopClock: (employee_id) => 
+    requests.put(`/employees/${employee_id}/attendances`)
 }
 
 const Profile = {

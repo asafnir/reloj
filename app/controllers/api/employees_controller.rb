@@ -1,7 +1,7 @@
 class Api::EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :update, :destroy, :attendances]
   before_action :authenticate_admin, only: [:create, :index, :attendances]
-  before_action :authenticate_employee
+  before_action :authenticate_employee, only: [:attendances]
   include Api::Concerns::Auth
 
   # GET /employees
@@ -43,6 +43,7 @@ class Api::EmployeesController < ApplicationController
   def current
     token = {token: auth_token(current_employee).token}
     user = {
+      id: current_employee.id,
       role: 'employee',
       email: current_employee.email,
       first_name: current_employee.first_name,

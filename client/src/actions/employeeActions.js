@@ -3,26 +3,27 @@ import api from '../services/api';
 import {
   ATTENDANCES_LIST,
   START_CLOCK,
-  STOP_CLOCK
+  STOP_CLOCK,
+  CREATE_ATTENDANCE,
+  UPDATE_ATTENDANCE
 } from '../constants/actionTypes'
 
 export const startClock = ({employee_id, baseTime = 0}) => {
   return dispatch => {
-    dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
-    // api.Employee.startClock(employee_id).then(res => {
-    //   dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
-    //   console.log(res)
-    // }).catch( err => console.log(err))
+    api.Employee.startClock(employee_id).then(res => {
+      console.log(res)
+      dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
+      dispatch({ type: CREATE_ATTENDANCE, attendance: res });
+    }).catch( err => console.log(err))
   }
 }
 
-export const stopClock = (employee_id) => {
+export const stopClock = ({employee_id}) => {
   return dispatch => {
-    dispatch({ type: STOP_CLOCK, now: new Date().getTime()});
-    // api.Employee.startClock(employee_id).then(res => {
-    //   dispatch({ type: START_CLOCK, now: new Date().getTime(), baseTime: baseTime,});
-    //   console.log(res)
-    // }).catch( err => console.log(err))
+    api.Employee.stopClock(employee_id).then(res => {
+      dispatch({ type: STOP_CLOCK, now: new Date().getTime()});
+      dispatch({ type: UPDATE_ATTENDANCE, attendance: res });
+    }).catch( err => console.log(err))
   }
 }
 

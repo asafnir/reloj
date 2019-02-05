@@ -1,19 +1,17 @@
 import Header from './Common/Header';
 import React from 'react';
-import { BrowserRouter as Router, Route, withRouter , Switch} from 'react-router-dom';
+import { Route, withRouter , Switch} from 'react-router-dom';
 import { connect } from 'react-redux';
 import api from '../services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { compose } from 'recompose';
 import Home from '../container/Home';
 import { current, currentEmployee } from '../actions/authActions';
 import Login from '../container/Login';
 import Dashboard from '../container/Dashboard';
-import Profile from '../container/Profile';
 import EmployeeDashboard from '../container/EmployeeDashboard';
 import Register from '../container/Register';
-import Settings from '../container/Settings';
 import Attendance from '../container/Attendance';
+import Reports from './Employee/Reports';
 
 class App extends React.Component {
   
@@ -52,6 +50,8 @@ class App extends React.Component {
           { currentUser && currentUser.role === "employee" ?
             <Switch>
               <Route exact path="/" component={EmployeeDashboard}/>
+              <Route exact path="/reports" component={Reports}/>
+              <Route exact path="/attendance" component={Attendance}/>
             </Switch>
             :
             <Switch>

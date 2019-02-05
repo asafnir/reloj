@@ -5,10 +5,13 @@ import Timer from '../components/Common/Timer';
 import PropTypes from 'prop-types';
 import LayoutBody from '../components/LayoutBody';
 import PunchButton from '../components/Employee/PunchButton';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
+import EmployeeAttendancesList from '../components/Employee/EmployeeAttendanceList';
 import { startClock, stopClock } from '../actions/employeeActions';
 import moment from 'moment';
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
   addButton: {
@@ -26,6 +29,7 @@ const styles = theme => ({
 const mapStateToProps = state => ({ 
   ...state,
   currentUser: state.auth.currentUser,
+  attendance: state.employee.attendance
 });
 
 class EmployeesDashboard extends React.Component {
@@ -45,11 +49,21 @@ class EmployeesDashboard extends React.Component {
     }
 
     render() {
-        const { classes, currentUser } = this.props;
+        const { classes, currentUser, attendance } = this.props;
         const { start } = this.state;
+        
         return (
         <React.Fragment>
             <LayoutBody margin marginBottom width="large">
+                <Grid container justify="flex-end">
+                    <Grid item>
+                        <Button color="primary" component={Link} to={{
+                                            pathname: '/attendance',
+                                            employee: currentUser
+                                        }} > Attendances History -> </Button>
+                    </Grid>
+                </Grid>
+
                 <Grid container justify="center" alignItems="center" spacing={16}>
                     <Grid item>
                     <h1 align="center">Hello {currentUser.first_name}</h1>
@@ -73,6 +87,11 @@ class EmployeesDashboard extends React.Component {
                         <PunchButton start={start} onClick={() => this.onClick}/>
                     </Grid>
                 </Grid>
+                { attendance &&
+                    <Grid container style={{marginBottom: 20}} justify="center" alignItems="center">
+                        <EmployeeAttendancesList attendances={[attendance]}/>
+                    </Grid>
+                }
             
             </LayoutBody>
         </React.Fragment>

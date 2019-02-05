@@ -1,7 +1,8 @@
 class Api::AttendancesController < ApplicationController
   before_action :set_attendance, only: [:show, :update, :destroy]
   before_action :set_employee, only: [:create]
-  before_action :authenticate_employee, :authenticate_admin
+  before_action :authenticate_employee, only: [:create, :update]
+  # before_action :authenticate_admin
   
   # GET /attendances
   def index

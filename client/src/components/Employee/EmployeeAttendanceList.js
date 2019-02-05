@@ -26,6 +26,7 @@ class EmployeeAttendancesList extends React.Component {
   
   render() {
     const { classes, attendances } = this.props;
+
     return (
         <Paper className={classes.root}>
             <Table className={classes.table}>
@@ -39,7 +40,7 @@ class EmployeeAttendancesList extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {attendances.map(attendance => (
+                    {attendances && attendances.map(attendance => (
                         <TableRow key={attendance.id}>
                             <TableCell>{moment(attendance.created_at).format('MM/DD/YY')}</TableCell>
                             <TableCell>{moment(attendance.created_at).format('dddd')}</TableCell>
@@ -60,9 +61,13 @@ class EmployeeAttendancesList extends React.Component {
     );
   }
 }
+EmployeeAttendancesList.defaultProps = {
+    attendances: []
+}
 
 EmployeeAttendancesList.propTypes = {
   classes: PropTypes.object.isRequired,
+  attendances: PropTypes.array.isRequired
 };
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(EmployeeAttendancesList);

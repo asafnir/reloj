@@ -2,11 +2,13 @@ import {
     ATTENDANCES_LIST,
     START_CLOCK,
     STOP_CLOCK,
-    RESET_CLOCK
+    RESET_CLOCK,
+    CREATE_ATTENDANCE,
+    UPDATE_ATTENDANCE
 } from '../constants/actionTypes';
 
 const initialState = {
-    attendances: null,
+    attendances: [],
     startClock: false,
     startedAt: undefined,
     stoppedAt: undefined,
@@ -21,7 +23,17 @@ export default (state = initialState, action) => {
         ...state,
         attendances: action.attendances,
       };
-      case RESET_CLOCK:
+    case CREATE_ATTENDANCE:
+      return {
+        ...state,
+        attendance: action.attendance
+      };
+    case UPDATE_ATTENDANCE:
+      return {
+        ...state,
+        attendance: action.attendance
+      };
+    case RESET_CLOCK:
       return {
         ...state,
         baseTime: 0,
