@@ -10,6 +10,7 @@ development:
   database: reloj_development
   username: <%= ENV['PGUSER_NEW'] %>
 
+
 test:
   <<: *default
   database: reloj_test
