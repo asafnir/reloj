@@ -1,7 +1,7 @@
 
 # reloj
 
-https://protected-ravine-46810.herokuapp.com/
+https://relojinout.herokuapp.com
 
 ## Introduction
 * Project example to system for clock-in and clock-out employees
@@ -47,8 +47,9 @@ Rails serving the Webpack bundle. Using NPM’s postinstall command
 The app includes only the rails-api related modules,
 
 * post 'user/token' 
-{"auth": { "email": "email@email.com", "password": "password" } } - return the JWT
-* get 'users/current' # Return the current user 
+- {"auth": { "email": "email@email.com", "password": "password" } } - return the JWT
+* get 'users/current'
+- Return the current user 
 * post 'employees' # Create a new user with admin_id
 * get 'employees' # Return all the employees that belong to admin
 * post 'employees/:id/attendances' # create new attendance for employee with ID
