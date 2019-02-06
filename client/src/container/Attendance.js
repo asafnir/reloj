@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import LayoutBody from '../components/LayoutBody';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import EmployeeAttendancesList from '../components/Employee/EmployeeAttendanceList';
 import { getAttendances } from '../actions/employeeActions';
-
-const styles = theme => ({
-})
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = state => ({ 
   ...state,
@@ -35,12 +32,12 @@ class Attendance extends React.Component {
 
 
   render() {
-    const { classes, currentUser, attendances } = this.props;
+    const { attendances } = this.props;
     const { employee } = this.state;
-    console.log(this.props)
     return (
       <React.Fragment>
         <LayoutBody margin marginBottom width="large">
+            <Button component={Link} to='/'>Back</Button>
             <h1>{employee.first_name} {employee.last_name} TimeCard</h1>
             {attendances && <EmployeeAttendancesList attendances={attendances}/>}
         </LayoutBody>
@@ -50,8 +47,7 @@ class Attendance extends React.Component {
 }
 
 Attendance.propTypes = {
-  classes: PropTypes.object.isRequired,
   employee: PropTypes.object.isRequired,
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(Attendance);
+export default connect(mapStateToProps, mapDispatchToProps)(Attendance);

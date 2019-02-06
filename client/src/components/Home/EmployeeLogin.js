@@ -1,7 +1,7 @@
 import ListErrors from '../Common/ListErrors';
 import React from 'react';
 import { connect } from 'react-redux';
-import { employeeAuthenticate } from '../../actions/authActions';
+import { authenticate } from '../../actions/authActions';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
@@ -49,7 +49,7 @@ class EmployeeLogin extends React.Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        await this.props.employeeAuthenticate(this.state);
+        await this.props.authenticate(this.state);
     }
 
     render() {
@@ -87,4 +87,4 @@ EmployeeLogin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default compose(connect(mapStateToProps, {employeeAuthenticate}), withStyles(styles))(EmployeeLogin);
+export default compose(connect(mapStateToProps, {authenticate}), withStyles(styles))(EmployeeLogin);

@@ -1,6 +1,5 @@
 import api from '../services/api';
 import { push } from 'react-router-redux';
-import {history} from '../store';
 import {
   AUTHENTICATION_FAILURE, 
   AUTHENTICATION_REQUEST, 
@@ -14,12 +13,12 @@ const authRequest = () => {
   }
 }
 
-const authSuccess = (user) => {
+const authSuccess = (data) => {
   return {
     type: AUTHENTICATION_SUCCESS,
     payload: {
-      user: user,
-      token: user.token
+      user: data.user,
+      token: data.token
     }
   }
 }
@@ -46,8 +45,8 @@ export const logout = () => {
 export const signup = (user) => {
   return (dispatch) => {
     dispatch(authRequest)
-    api.Auth.register({admin: user}).then(res => {
-      dispatch(authSuccess(res.user))
+    api.Auth.register({user: user}).then(res => {
+      dispatch(authSuccess(res))
       dispatch(push('/dashboard'))
     }).catch(err => {
       dispatch(authFailure(err.response ? err.response.body : {server: 'problem try again later '} ))
@@ -59,39 +58,14 @@ export const authenticate = (credentials) => {
   return dispatch => {
     dispatch(authRequest())
     api.Auth.login(credentials).then(res => {
+      console.log(res)
       const token = res.jwt;
       api.setToken(token);
       api.Auth.current().then(res => {
-        dispatch(authSuccess(res.user))
-        dispatch(push('/dashboard'))
-      })
-    }).catch( err => {
-      dispatch(authFailure({user: 'not found'}))  
-    })
-  }
-}
-
-export const employeeAuthenticate = (credentials) => {
-  return dispatch => {
-    api.Auth.employeeLogin(credentials).then(res => {
-      const token = res.jwt;
-      api.setToken(token);
-      api.Auth.currentEmployee().then(res => {
-        const user = res;
-        user.token = token
-        dispatch(authSuccess(user))
+        console.log(res)
+        dispatch(authSuccess(res))
         dispatch(push('/'))
       })
-    }).catch( err => {
-      dispatch(authFailure({user: 'not found'}))  
-    })
-  }
-}
-
-export const currentEmployee = () => {
-  return dispatch => {
-    api.Auth.currentEmployee().then(res => {
-      dispatch(authSuccess(res))  
     }).catch( err => {
       dispatch(authFailure({user: 'not found'}))  
     })
@@ -101,7 +75,7 @@ export const currentEmployee = () => {
 export const current = () => {
   return dispatch => {
     api.Auth.current().then(res => {
-      dispatch(authSuccess(res.user))
+      dispatch(authSuccess(res))
     }).catch( err => {
       dispatch(authFailure({user: 'not found'}))  
     })

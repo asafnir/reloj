@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { startClock, stopClock } from '../../actions/employeeActions';
+import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 
 class ActionButton extends Component {
@@ -6,10 +8,12 @@ class ActionButton extends Component {
   
     startClock = employee => event => {
       this.setState({ start: true });
+      this.props.startClock({employee_id: this.props.employee.id});
     };
 
     stopClock = employee => event => {
         this.setState({ start: false });
+        this.props.stopClock({employee_id: this.props.employee.id});
     };
   
     render() {
@@ -31,4 +35,4 @@ class ActionButton extends Component {
     }
 }
 
-export default ActionButton;
+export default connect(null, {startClock, stopClock})(ActionButton);

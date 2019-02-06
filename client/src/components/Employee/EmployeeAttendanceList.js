@@ -1,73 +1,70 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import Paper from '@material-ui/core/Paper';
-import TableRow from '@material-ui/core/TableRow';
+import { TableRow, Paper, TableHead, TableCell, TableBody, Table } from '@material-ui/core';
 import moment from 'moment';
-
-const styles = theme => ({
-})
-
-const mapStateToProps = state => ({ 
-   
-});
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
 class EmployeeAttendancesList extends React.Component {
-  
-  render() {
-    const { classes, attendances } = this.props;
+    
+    getDiff = (attendance) => {
+        const start = moment(attendance.created_at);
+        const end = moment(attendance.end);
+        return end.diff(start, 'minutes')
+    }
 
-    return (
-        <Paper className={classes.root}>
-            <Table className={classes.table}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Day</TableCell>
-                        <TableCell>Start at Time</TableCell>
-                        <TableCell>In</TableCell>
-                        <TableCell>Out</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {attendances && attendances.map(attendance => (
-                        <TableRow key={attendance.id}>
-                            <TableCell>{moment(attendance.created_at).format('MM/DD/YY')}</TableCell>
-                            <TableCell>{moment(attendance.created_at).format('dddd')}</TableCell>
-                            <TableCell>{moment(attendance.created_at).format('HH:mm')}</TableCell>
-                            <TableCell>{moment(attendance.created_at).format('HH:mm')}</TableCell>
-                            <TableCell>
-                                {attendance.end ? 
-                                    moment(attendance.created_at).format('dddd')
-                                    :
-                                    "Still open"
-                                }
-                            </TableCell>
+
+    render() {
+        const { attendances } = this.props;
+
+        return (
+            <Paper>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Date</TableCell>
+                            <TableCell>Day</TableCell>
+                            <TableCell>Time</TableCell>
+                            <TableCell>In</TableCell>
+                            <TableCell>Out</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </Paper>
-    );
-  }
+                    </TableHead>
+                    <TableBody>
+                        {attendances && attendances.map(attendance => (
+                            <TableRow key={attendance.id}>
+                                <TableCell>{moment(attendance.created_at).format('MM/DD/YY')}</TableCell>
+                                <TableCell>{moment(attendance.created_at).format('dddd')}</TableCell>
+                                <TableCell>
+                                    { 
+                                        attendance.end && this.getDiff(attendance)
+                                    }
+                                </TableCell>
+                                <TableCell>{moment(attendance.created_at).format('HH:mm')}</TableCell>
+                                <TableCell>
+                                    {attendance.end ? 
+                                        moment(attendance.end).format('HH:mm')
+                                        :
+                                        "Still open"
+                                    }
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </Paper>
+        );
+    }
 }
+
 EmployeeAttendancesList.defaultProps = {
     attendances: []
 }
 
 EmployeeAttendancesList.propTypes = {
-  classes: PropTypes.object.isRequired,
   attendances: PropTypes.array.isRequired
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(EmployeeAttendancesList);
+export default connect(null, mapDispatchToProps)(EmployeeAttendancesList);

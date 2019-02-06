@@ -28,17 +28,13 @@ const requests = {
 
 const Auth = {
   current: () =>
-    requests.get('/admins/current'),
-  currentEmployee: () => 
-    requests.get('/employees/current'),
+    requests.get('/users/current'),
   login: ({email, password}) =>
-    requests.post('/admin/token', { auth: { email, password } }),
+    requests.post('/user/token', { auth: { email, password } }),
   employeeLogin: ({email, password}) =>
     requests.post('/employee/token', { auth: { email, password } }),
   register: (user) =>
-    requests.post('/admins', user ),
-  save: user =>
-    requests.put('/user', { user })
+    requests.post('/users', user ),
 };
 
 const Admin = {
@@ -57,15 +53,9 @@ const Employee = {
     requests.put(`/employees/${employee_id}/attendances`)
 }
 
-const Profile = {
-  get: username =>
-    requests.get(`/profiles/${username}`),
-};
-
 export default {
   Auth,
   Admin,
   Employee,
-  Profile,
   setToken: _token => { token = _token; }
 };

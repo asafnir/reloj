@@ -4,15 +4,9 @@ import { connect } from 'react-redux';
 import { authenticate } from '../actions/authActions';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+import {Avatar, Button, FormControl, Input, InputLabel, Paper, Typography} from '@material-ui/core';
 import LayoutBody from '../components/LayoutBody';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
@@ -84,7 +78,7 @@ class Login extends React.Component {
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
-              <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.changePassword}/>
+              <Input name="password" type="password" id="password" value={password} autoComplete="current-password" onChange={this.changePassword}/>
             </FormControl>
             <Button
               type="submit"

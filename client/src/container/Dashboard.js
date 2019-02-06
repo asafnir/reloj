@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import Button from '@material-ui/core/Button';
+import {Button, Grid, CircularProgress} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import LayoutBody from '../components/LayoutBody';
-import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import AddEmployeeDialog from '../components/Admin/AddEmployeeDialog';
 import { openAddEmployeeDialog, employees } from '../actions/adminActions';
 import EmployeesList from '../components/Admin/EmployeesList';

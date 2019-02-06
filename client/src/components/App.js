@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import api from '../services/api';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Home from '../container/Home';
-import { current, currentEmployee } from '../actions/authActions';
+import { current } from '../actions/authActions';
 import Login from '../container/Login';
 import Dashboard from '../container/Dashboard';
 import EmployeeDashboard from '../container/EmployeeDashboard';
@@ -19,16 +19,10 @@ class App extends React.Component {
     const { history } = this.props;
     const token = window.localStorage.getItem('token');
     const currentUser = JSON.parse(window.localStorage.getItem('user'));
-    console.log(currentUser)
     if (token && currentUser) {
       api.setToken(token);
-      if (currentUser && currentUser.role === 'employee') { 
-        this.props.currentEmployee();
-        history.push("/")
-      } else {
-        this.props.current()
-        history.push("/dashboard");
-      }
+      this.props.current()
+      history.push("/dashboard");
     }
   }
 
@@ -78,4 +72,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, {current, currentEmployee})(App))
+export default withRouter(connect(mapStateToProps, {current})(App))

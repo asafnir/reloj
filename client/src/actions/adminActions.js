@@ -2,7 +2,6 @@ import api from '../services/api';
 
 import {
   ADD_EMPLOYEE, 
-  SHOW_EMPLOYEE, 
   LIST_EMPLOYEES,
   ADD_EMPLOYEE_FAILURE,
   OPEN_ADD_EMPLOYEE_DIALOG,
@@ -32,11 +31,11 @@ export const openAddEmployeeDialog = () => {
 
 export const addEmployee = (data) => {
     return (dispatch) => {
-        api.Admin.addEmployee({employee: data}).then( res => {
+        api.Admin.addEmployee({user: data}).then( res => {
             dispatch(closeAddEmployeeDialog())
             return dispatch({
                 type: ADD_EMPLOYEE,
-                employee: res
+                employee: res.user
             });
         }).catch(err => {
             return dispatch({

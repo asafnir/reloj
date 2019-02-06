@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190202222204) do
+ActiveRecord::Schema.define(version: 20190206075336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,12 +21,13 @@ ActiveRecord::Schema.define(version: 20190202222204) do
     t.string "email"
     t.string "password_digest"
     t.string "company"
+    t.string "role", default: "admin", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "attendances", force: :cascade do |t|
-    t.integer "employee_id"
+    t.integer "user_id"
     t.datetime "start"
     t.datetime "end"
     t.datetime "created_at", null: false
@@ -39,6 +40,26 @@ ActiveRecord::Schema.define(version: 20190202222204) do
     t.string "first_name"
     t.string "last_name"
     t.integer "admin_id"
+    t.string "role", default: "employee", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email", null: false
+    t.string "password_digest"
+    t.string "company"
+    t.integer "admin_id"
+    t.string "role", default: "employee", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email"
+  end
+
+  create_table "widgets", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

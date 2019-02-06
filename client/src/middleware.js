@@ -49,9 +49,9 @@ const promiseMiddleware = store => next => action => {
 const localStorageMiddleware = store => next => action => {
   if (action.type === AUTHENTICATION_SUCCESS) {
     if (!action.payload.error) {
-      window.localStorage.setItem('token', action.payload.user.token);
+      window.localStorage.setItem('token', action.payload.token);
       window.localStorage.setItem('user', JSON.stringify(action.payload.user));
-      api.setToken(action.payload.user.token);
+      api.setToken(action.payload.token);
     }
   } else if (action.type === LOGOUT) {
     window.localStorage.removeItem('token');

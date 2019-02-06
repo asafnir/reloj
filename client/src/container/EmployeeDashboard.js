@@ -6,12 +6,11 @@ import PropTypes from 'prop-types';
 import LayoutBody from '../components/LayoutBody';
 import PunchButton from '../components/Employee/PunchButton';
 import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import withStyles from '@material-ui/core/styles/withStyles';
 import EmployeeAttendancesList from '../components/Employee/EmployeeAttendanceList';
 import { startClock, stopClock } from '../actions/employeeActions';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Button, Grid } from '@material-ui/core';
 import moment from 'moment';
-import { Button } from '@material-ui/core';
 
 const styles = theme => ({
   addButton: {

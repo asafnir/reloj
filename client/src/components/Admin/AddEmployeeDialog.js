@@ -83,7 +83,6 @@ class AddEmployeeDialog extends React.Component {
                 email,
                 password } = this.state.employee;
         
-        console.log(this.props)
         return (
             <Dialog fullWidth={true} open={open} onClose={this.handleClose} aria-labelledby="add-employee-dialog">
                 <DialogTitle>Add New Employee</DialogTitle>

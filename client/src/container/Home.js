@@ -6,7 +6,6 @@ import EmployeeSection from '../components/Home/EmployeeSection';
 
 const mapStateToProps = state => ({
   ...state.home,
-  appName: state.common.appName,
   token: state.common.token
 });
 

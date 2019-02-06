@@ -4,7 +4,6 @@ import React from 'react';
 import store ,{history} from './store';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import App from './components/App';
 
