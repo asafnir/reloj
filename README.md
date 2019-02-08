@@ -47,14 +47,19 @@ Rails serving the Webpack bundle. Using NPM’s postinstall command
 The app includes only the rails-api related modules,
 
 * post 'user/token' 
-- {"auth": { "email": "email@email.com", "password": "password" } } - return the JWT
+  - {"auth": { "email": "email@email.com", "password": "password" } } - return the JWT
 * get 'users/current'
-- Return the current user 
-* post 'employees' # Create a new user with admin_id
-* get 'employees' # Return all the employees that belong to admin
-* post 'employees/:id/attendances' # create new attendance for employee with ID
-* put 'employees/:id/attendances' # Update the attendances with end time
-* get 'employees/:id/attendances' # return all the attendances of employee
+  - Return the current user 
+* post 'employees'
+  - Create a new user with admin_id
+* get 'employees'
+  - Return all the employees that belong to admin
+* post 'employees/:id/attendances' 
+  - create new attendance for employee with ID
+* put 'employees/:id/attendances'
+  - Update the attendances with end time
+* get 'employees/:id/attendances'
+  - return all the attendances of employee
 
 #### Users Management
 The chosen solution uses `has_secure_password` with knock Gem
